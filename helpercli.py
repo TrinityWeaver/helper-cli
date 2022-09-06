@@ -2,6 +2,10 @@ import click
 import boto3
 
 
+# Add README.md
+# Add SQS Removal feature
+
+
 class HelperCLI:
     def __init__(self):
         pass
@@ -41,7 +45,6 @@ class HelperCLI:
         return client.list_buckets()
 
     def remove_buckets(self, client, buckets, s3):
-        val = 2
 
         for bucketName in buckets["Buckets"]:
             try:
@@ -65,6 +68,7 @@ class HelperCLI:
     "--service",
     help="Service to use for removal resources.\nChoose one of:\n\n" + "s3",
     required=True,
+    type=click.Choice(["s3"]),
 )
 def helper(service):
     """
