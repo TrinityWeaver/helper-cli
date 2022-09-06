@@ -1,7 +1,0 @@
-setup.py
-helper.egg-info/PKG-INFO
-helper.egg-info/SOURCES.txt
-helper.egg-info/dependency_links.txt
-helper.egg-info/entry_points.txt
-helper.egg-info/requires.txt
-helper.egg-info/top_level.txt
