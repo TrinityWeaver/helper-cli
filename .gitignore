@@ -1,0 +1,5 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+helper.egg-info
+.helper-cli
+helper-cli.code-workspace
