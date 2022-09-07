@@ -119,7 +119,6 @@ class HelperCLI:
 
         deleted_queues = 0
         error_queues = 0
-        var = 1
         for queue in queues["QueueUrls"]:
             try:
                 client.delete_queue(QueueUrl=queue)
@@ -129,9 +128,6 @@ class HelperCLI:
                 error_queues += 1
                 print(f"{fg(196)}Error deleting queue {queue}:")
                 print(e)
-            var -= 1
-            if var == 0:
-                break
         return deleted_queues, error_queues
 
     @staticmethod
