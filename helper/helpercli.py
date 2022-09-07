@@ -12,10 +12,12 @@ class HelperCLI:
     def __init__(self):
         self.__access_key = None
         self.__secret_key = None
+        self.__region = None
+        self.__endpoint_url = None
 
     # Initialize helper
 
-    def aws_creds(self):
+    def aws_creds(self) -> None:
         """
         Get AWS credentials from the environment
         """
@@ -27,7 +29,7 @@ class HelperCLI:
             f"{fg('163')}Enter your secret access key", hide_input=True
         )
 
-    def clientBoto3(self, service):
+    def clientBoto3(self, service: str) -> boto3.client:
         """
         Configure boto3 with AWS credentials
         """
@@ -35,11 +37,13 @@ class HelperCLI:
             service,
             aws_access_key_id=self.__access_key,
             aws_secret_access_key=self.__secret_key,
+            region_name=self.__region,
+            endpoint_url=self.__endpoint_url,
         )
 
     # S3 Service
 
-    def clientResources(self):
+    def clientResources(self) -> boto3.resource:
         """
         Configure boto3 with AWS credentials
         """
@@ -49,20 +53,23 @@ class HelperCLI:
             aws_secret_access_key=self.__secret_key,
         )
 
-    def get_buckets(self, client):
+    def get_buckets(self, client) -> dict:
         """
         Get all buckets from the client
         """
         return client.list_buckets()
 
     @staticmethod
-    def bucket_result(deleted_buckets, error_buckets):
+    def bucket_result(deleted_buckets: str, error_buckets: str) -> None:
         print("\n\n")
         print(f"{fg(75)}Result of Operation:\n")
         print(f"{fg(10)}Buckets deleted: {deleted_buckets}\n ")
         print(f"{fg(196)}Buckets not deleted: {error_buckets}\n ")
 
-    def remove_buckets(self, client, buckets, s3):
+    def remove_buckets(self, client, buckets: dict, s3) -> int:
+        """
+        Remove buckets
+        """
         deleted_buckets = 0
         error_buckets = 0
         for bucketName in buckets["Buckets"]:
@@ -86,8 +93,53 @@ class HelperCLI:
                 print(e)
         return deleted_buckets, error_buckets
 
+    # SQS Service
 
-# SQS Service
+    def get_region(self) -> None:
+        """
+        Get region from the environment
+        """
+        self.__region = click.prompt(f"{fg('163')}Enter your region")
+        self.__endpoint_url = f"https://sqs.{self.__region}.amazonaws.com"
+
+    def list_queques(self, client) -> list:
+        """
+        List all queues from the client
+        """
+        queues = client.list_queues()
+        if "QueueUrls" in queues:
+            return queues
+        print(f"{fg(196)}No queues found in region {self.__region} ")
+        return None
+
+    def remove_queues(self, client, queues: list) -> int:
+        """
+        Remove queues from the region
+        """
+
+        deleted_queues = 0
+        error_queues = 0
+        var = 1
+        for queue in queues["QueueUrls"]:
+            try:
+                client.delete_queue(QueueUrl=queue)
+                print(f"{fg(10)}Delete queue {queue} successfully")
+                deleted_queues += 1
+            except Exception as e:
+                error_queues += 1
+                print(f"{fg(196)}Error deleting queue {queue}:")
+                print(e)
+            var -= 1
+            if var == 0:
+                break
+        return deleted_queues, error_queues
+
+    @staticmethod
+    def queue_result(deleted_queues: int, error_queues: int) -> None:
+        print("\n\n")
+        print(f"{fg(75)}Result of Operation:\n")
+        print(f"{fg(10)}Queues deleted: {deleted_queues}\n ")
+        print(f"{fg(196)}Queues not deleted: {error_queues}\n ")
 
 
 @click.command()
@@ -98,7 +150,7 @@ class HelperCLI:
     required=True,
     type=click.Choice(["s3", "sqs"]),
 )
-def helper(service):
+def helper(service: str) -> None:
     """
     Name: Helper
 
@@ -118,7 +170,7 @@ def helper(service):
     try:
         if service == "s3":
             print(f"{fg(163)}Initializing S3 Service\n")
-            creds = helperClient.aws_creds()
+            helperClient.aws_creds()
             print("\n")
             client = helperClient.clientBoto3(service)
             s3 = helperClient.clientResources()
@@ -127,13 +179,21 @@ def helper(service):
                 client, buckets, s3
             )
             helperClient.bucket_result(deleted_buckets, error_buckets)
+    except Exception as e:
+        print(e)
 
+    try:
         if service == "sqs":
             print(f"{fg(163)}Initializing SQS Service\n")
-            creds = helperClient.aws_creds()
+            helperClient.aws_creds()
+            helperClient.get_region()
             print("\n")
             client = helperClient.clientBoto3(service)
-
+            queues = helperClient.list_queques(client)
+            if queues is None:
+                return
+            deleted_queues, error_queues = helperClient.remove_queues(client, queues)
+            helperClient.queue_result(deleted_queues, error_queues)
     except Exception as e:
         print(e)
 
