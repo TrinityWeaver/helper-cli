@@ -1,13 +1,13 @@
 <h1>Helper-CLI</h1>
 <br>
-```
+<command>
 Usage: helper [OPTIONS]
 
   Name: Helper
 
   Helper CLI to remove resources from AWS
 
-  SYNOPSIS       helper [options] <command>
+  SYNOPSIS       helper [options] &lt;command&gt;
 
      Use helper command help for information on a  specific  command.  Use
      helper    help  topics  to view a list of available help topics. The
@@ -17,7 +17,7 @@ Usage: helper [OPTIONS]
 Options:
   -s, --service [s3|sqs]  Service to use for removal resources  [required]
   --help                  Show this message and exit.```
-
+</command>
 
 <h2>Overview:</h2>
 <br>
