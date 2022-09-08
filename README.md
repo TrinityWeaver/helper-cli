@@ -14,7 +14,8 @@
 
 Options:
   -s, --service [s3|sqs]  Service to use for removal resources  [required]
-  --help                  Show this message and exit.```
+  --help                  Show this message and exit.
+```
 
 
 
