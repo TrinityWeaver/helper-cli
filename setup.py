@@ -9,7 +9,7 @@ setup(
     version="1.0.1",
     author="Sebastian Marynicz",
     author_email="sebastian.marynicz@gmail.com",
-    description="Helper CLI for quick removal of AWS resources.",
+    description="Helper CLI for quick removal of AWS [s3|sqs] resources.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/TrinityWeaver/helper-cli",
