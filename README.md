@@ -1,4 +1,5 @@
 # Helper-CLI
+
 ```Usage: helper [OPTIONS]
 
   Name: Helper
@@ -31,5 +32,12 @@ This tool allows quickly removing S3 buckets or SQS queues. Just run `helper -s 
 Install helper-cli using pip and git:
 
 `pip install git+https://github.com/TrinityWeaver/helper-cli.git`
+
+
+## Usage:
+
+![Usage Example ](assets/example.png)
+
+
 
 
