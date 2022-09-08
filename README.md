@@ -1,6 +1,6 @@
 <h1>Helper-CLI</h1>
 <br>
-<command>
+<code>
 Usage: helper [OPTIONS]
 
   Name: Helper
@@ -17,7 +17,7 @@ Usage: helper [OPTIONS]
 Options:
   -s, --service [s3|sqs]  Service to use for removal resources  [required]
   --help                  Show this message and exit.```
-</command>
+</code>
 
 <h2>Overview:</h2>
 <br>
