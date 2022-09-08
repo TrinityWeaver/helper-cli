@@ -7,7 +7,7 @@
 
   Helper CLI to remove resources from AWS
 
-  SYNOPSIS       helper [options] <command>
+  SYNOPSIS       helper [options] \<command>
 
      Use helper command help for information on a  specific  command.  Use
      helper    help  topics  to view a list of available help topics. The
