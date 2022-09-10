@@ -1,7 +1,6 @@
 import click
 import boto3
-import colored
-from colored import fg, bg, attr
+from colored import fg
 
 
 class HelperCLI:
