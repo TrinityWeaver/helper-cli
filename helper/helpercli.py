@@ -4,10 +4,6 @@ import colored
 from colored import fg, bg, attr
 
 
-# Add README.md
-# Add SQS Removal feature
-
-
 class HelperCLI:
     def __init__(self):
         self.__access_key = None
