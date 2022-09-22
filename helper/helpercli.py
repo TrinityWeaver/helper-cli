@@ -90,6 +90,7 @@ class HelperCLI:
 
     # SQS Service
     # Requires Region
+    # Added Region
 
     def get_region(self) -> None:
         """
