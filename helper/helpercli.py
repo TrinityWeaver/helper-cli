@@ -89,6 +89,8 @@ class HelperCLI:
         return deleted_buckets, error_buckets
 
     # SQS Service
+    # Requires Region
+    # Added Region
 
     def get_region(self) -> None:
         """
